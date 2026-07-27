@@ -1,0 +1,44 @@
+<div class="details-window-content">
+  <div class="details-controls-bar">
+    <select id="details-mode-select">
+      {{#each modeOptions}}
+        <option value="{{this.id}}" {{#if (eq ../currentMode this.id)}}selected{{/if}}>{{this.label}}</option>
+      {{/each}}
+    </select>
+
+    <select id="details-segment-select">
+      {{#each availableSegments}}
+        <option value="{{this.id}}" {{#if (eq ../currentSegmentId this.id)}}selected{{/if}}>{{this.name}}</option>
+      {{/each}}
+    </select>
+
+    <button type="button" id="details-reset-btn" class="details-btn" title="Reset Current Combat Data">
+      <i class="fas fa-redo-alt"></i>
+    </button>
+  </div>
+
+  <div class="details-container">
+    {{#if hasRows}}
+      {{#each rows}}
+        <div class="details-row" data-actor-id="{{this.id}}" data-rank="{{this.rank}}" title="Left-click: Breakdown | Right-click: Focus Token | Double-click: Character Sheet">
+          <div class="details-bar-fill {{this.barClass}}" style="width: {{this.pctOfMax}}%; {{{this.customStyle}}}"></div>
+          
+          <div class="details-actor-info">
+            <span class="details-rank">{{this.rank}}.</span>
+            <img class="details-actor-img" src="{{this.img}}" alt="{{this.name}}" />
+            <span class="details-actor-name">{{this.name}}</span>
+          </div>
+
+          <div class="details-actor-stats">
+            <span class="details-val">{{this.formattedValue}}</span>
+            <span class="details-rate">({{this.formattedRate}}, {{this.pctOfTotal}}%)</span>
+          </div>
+        </div>
+      {{/each}}
+    {{else}}
+      <div class="details-empty">
+        <i class="fas fa-shield-alt"></i> No combat data recorded yet. Start a combat or roll damage!
+      </div>
+    {{/if}}
+  </div>
+</div>

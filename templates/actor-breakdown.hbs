@@ -1,0 +1,80 @@
+<div class="details-breakdown-content">
+  {{#if hasData}}
+    <div class="details-breakdown-header">
+      <img class="details-breakdown-img" src="{{actor.img}}" alt="{{actor.name}}" />
+      <div>
+        <div class="details-breakdown-title">{{actor.name}}</div>
+        <div class="details-breakdown-subtitle">
+          Damage: <strong style="color: #ff5555;">{{formattedDamage}}</strong> | 
+          Healing: <strong style="color: #55ff55;">{{formattedHealing}}</strong> | 
+          Taken: <strong style="color: #ffaa00;">{{formattedTaken}}</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="details-breakdown-tabs">
+      <button class="details-tab-btn {{#if isAbilitiesTab}}active{{/if}}" data-tab="abilities">
+        <i class="fas fa-magic"></i> Abilities / Spells
+      </button>
+      <button class="details-tab-btn {{#if isTargetsTab}}active{{/if}}" data-tab="targets">
+        <i class="fas fa-crosshairs"></i> Target Breakdown
+      </button>
+    </div>
+
+    <div class="details-breakdown-body" style="padding: 0 10px; max-height: 250px; overflow-y: auto;">
+      {{#if isAbilitiesTab}}
+        <table class="details-breakdown-table">
+          <thead>
+            <tr>
+              <th>Ability / Spell</th>
+              <th>Total</th>
+              <th>%</th>
+              <th>Hits</th>
+              <th>Crits</th>
+              <th>Min/Max</th>
+              <th>Avg</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each abilitiesList}}
+              <tr>
+                <td><strong>{{this.name}}</strong></td>
+                <td style="color: #ffd700;">{{this.formattedTotal}}</td>
+                <td>{{this.pct}}%</td>
+                <td>{{this.hits}}</td>
+                <td>{{this.crits}}</td>
+                <td>{{this.min}} / {{this.max}}</td>
+                <td>{{this.avg}}</td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      {{/if}}
+
+      {{#if isTargetsTab}}
+        <table class="details-breakdown-table">
+          <thead>
+            <tr>
+              <th>Target Name</th>
+              <th>Total Amount</th>
+              <th>% of Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each targetsList}}
+              <tr>
+                <td><strong>{{this.name}}</strong></td>
+                <td style="color: #ffd700;">{{this.formattedTotal}}</td>
+                <td>{{this.pct}}%</td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      {{/if}}
+    </div>
+  {{else}}
+    <div class="details-empty" style="padding: 30px;">
+      No breakdown data available for this actor.
+    </div>
+  {{/if}}
+</div>

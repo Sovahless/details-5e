@@ -1,0 +1,430 @@
+/* Details! Damage Meter - Authentic WoW Details! Translucent Black Theme & Dynamic Animations */
+
+/* Window Fade-In Entrance Animation */
+@keyframes detailsWindowFadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.96) translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Shimmer Sweep Animation over Progress Bars */
+@keyframes barShimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+/* Top Rank #1 Gold Glow Pulse */
+@keyframes goldPulse {
+  0%, 100% {
+    box-shadow: inset 0 0 6px rgba(255, 215, 0, 0.4), 0 0 8px rgba(255, 215, 0, 0.2);
+  }
+  50% {
+    box-shadow: inset 0 0 12px rgba(255, 215, 0, 0.7), 0 0 14px rgba(255, 215, 0, 0.5);
+  }
+}
+
+/* Override Foundry VTT default parchment paper window styling */
+.app.window-app.details-window,
+#details-meter-window,
+#details-actor-breakdown,
+.details-window,
+.details-window .window-content,
+#details-meter-window .window-content,
+#details-actor-breakdown .window-content {
+  background: rgba(0, 0, 0, 0.35) !important;
+  background-image: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(8px) !important;
+  color: #ffffff !important;
+  font-family: "Signika", "Roboto", "Segoe UI", sans-serif;
+  overflow: hidden;
+  padding: 0 !important;
+  animation: detailsWindowFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) ease-out;
+}
+
+/* Window Header */
+.details-window .window-header {
+  background: rgba(0, 0, 0, 0.5) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+  padding: 4px 8px !important;
+  height: 32px !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #ffffff !important;
+}
+
+.details-window .window-title {
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  color: #ffd700 !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.details-window .window-title i {
+  transition: transform 0.3s ease;
+}
+
+.details-window:hover .window-title i {
+  transform: rotate(15deg) scale(1.1);
+}
+
+.details-window .header-button {
+  color: #cccccc !important;
+  text-shadow: none;
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.details-window .header-button:hover {
+  color: #ffffff !important;
+  transform: scale(1.1);
+}
+
+/* Control Toolbar */
+.details-controls-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  background: rgba(0, 0, 0, 0.35) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.details-controls-bar select {
+  background: rgba(0, 0, 0, 0.5) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  border-radius: 3px !important;
+  padding: 3px 8px !important;
+  font-size: 11px !important;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.details-controls-bar select option {
+  background: #111111 !important;
+  color: #ffffff !important;
+}
+
+.details-controls-bar select:hover {
+  border-color: #ffd700 !important;
+  box-shadow: 0 0 6px rgba(255, 215, 0, 0.3);
+}
+
+.details-controls-bar .details-btn {
+  background: rgba(0, 0, 0, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  color: #ffffff !important;
+  border-radius: 3px !important;
+  padding: 3px 10px !important;
+  font-size: 11px !important;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.details-controls-bar .details-btn:hover {
+  background: rgba(255, 215, 0, 0.3) !important;
+  border-color: #ffd700 !important;
+  color: #ffffff !important;
+  transform: scale(1.05);
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+}
+
+.details-controls-bar .details-btn:active {
+  transform: scale(0.95);
+}
+
+/* Main Scrollable Container */
+.details-container {
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: calc(100% - 68px);
+  overflow-y: auto;
+  background: transparent !important;
+}
+
+.details-container::-webkit-scrollbar {
+  width: 5px;
+}
+.details-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 3px;
+  transition: background 0.2s ease;
+}
+.details-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 215, 0, 0.6);
+}
+
+/* Individual Actor Row Layout & Micro-Animations */
+.details-row {
+  position: relative;
+  height: 26px;
+  background: rgba(0, 0, 0, 0.35) !important;
+  border-radius: 3px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.details-row:hover {
+  border-color: rgba(255, 215, 0, 0.5) !important;
+  transform: translateX(4px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), 0 0 6px rgba(255, 215, 0, 0.25);
+}
+
+.details-row:active {
+  transform: translateX(2px) scale(0.99);
+}
+
+/* Top #1 Rank Glow Highlight */
+.details-row[data-rank="1"] {
+  border-color: rgba(255, 215, 0, 0.3) !important;
+  animation: goldPulse 3s infinite ease-in-out;
+}
+
+.details-row[data-rank="1"] .details-rank {
+  color: #ffd700 !important;
+  text-shadow: 0 0 6px rgba(255, 215, 0, 0.8);
+}
+
+/* Meter Fill Bar Smooth Width Transition & Shimmer Effect */
+.details-bar-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  opacity: 0.88;
+  border-right: 1px solid rgba(255, 255, 255, 0.4);
+  overflow: hidden;
+}
+
+/* Gloss Shimmer Overlay */
+.details-bar-fill::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.25) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: barShimmer 2.5s infinite linear;
+}
+
+/* Class Bar Color Gradients */
+.details-bar-fill.bar-barbarian { background: linear-gradient(90deg, #7F1D1D 0%, #E11D48 100%); }
+.details-bar-fill.bar-bard { background: linear-gradient(90deg, #BE185D 0%, #F472B6 100%); }
+.details-bar-fill.bar-cleric { background: linear-gradient(90deg, #475569 0%, #F8FAFC 100%); }
+.details-bar-fill.bar-druid { background: linear-gradient(90deg, #C2410C 0%, #F97316 100%); }
+.details-bar-fill.bar-fighter { background: linear-gradient(90deg, #78350F 0%, #D97706 100%); }
+.details-bar-fill.bar-monk { background: linear-gradient(90deg, #047857 0%, #10B981 100%); }
+.details-bar-fill.bar-paladin { background: linear-gradient(90deg, #B45309 0%, #FBBF24 100%); }
+.details-bar-fill.bar-ranger { background: linear-gradient(90deg, #15803D 0%, #4ADE80 100%); }
+.details-bar-fill.bar-rogue { background: linear-gradient(90deg, #A16207 0%, #FACC15 100%); }
+.details-bar-fill.bar-sorcerer { background: linear-gradient(90deg, #0369A1 0%, #38BDF8 100%); }
+.details-bar-fill.bar-warlock { background: linear-gradient(90deg, #6B21A8 0%, #C084FC 100%); }
+.details-bar-fill.bar-wizard { background: linear-gradient(90deg, #1E40AF 0%, #60A5FA 100%); }
+.details-bar-fill.bar-artificer { background: linear-gradient(90deg, #B45309 0%, #F59E0B 100%); }
+.details-bar-fill.bar-bloodhunter { background: linear-gradient(90deg, #4C0519 0%, #9F1239 100%); }
+.details-bar-fill.bar-npc { background: linear-gradient(90deg, #881337 0%, #F43F5E 100%); }
+.details-bar-fill.bar-default, .details-bar-fill.bar-custom { background: linear-gradient(90deg, #1E293B 0%, #3B82F6 100%); }
+
+/* Actor Text & Avatar Info */
+.details-actor-info {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 0 2px rgba(0, 0, 0, 0.9);
+}
+
+.details-actor-img {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.details-row:hover .details-actor-img {
+  transform: scale(1.15) rotate(5deg);
+  border-color: #ffd700;
+}
+
+.details-rank {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: bold;
+  min-width: 14px;
+}
+
+.details-actor-stats {
+  position: relative;
+  z-index: 2;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 0 2px rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.details-rate {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: normal;
+}
+
+/* Empty State */
+.details-empty {
+  padding: 30px 20px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  font-style: italic;
+}
+
+/* Breakdown Modal Styling & Tab Animations */
+.details-breakdown-window {
+  min-width: 500px;
+}
+
+.details-breakdown-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.5) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.details-breakdown-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 215, 0, 0.6);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.details-breakdown-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.details-breakdown-subtitle {
+  font-size: 12px;
+  color: #cccccc;
+}
+
+.details-breakdown-tabs {
+  display: flex;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(0, 0, 0, 0.35) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.details-tab-btn {
+  padding: 4px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.5);
+  color: #cccccc;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.details-tab-btn:hover {
+  background: rgba(255, 215, 0, 0.15);
+  border-color: rgba(255, 215, 0, 0.5);
+  color: #ffffff;
+}
+
+.details-tab-btn.active {
+  background: rgba(255, 215, 0, 0.25);
+  border-color: #ffd700;
+  color: #ffd700;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+}
+
+.details-breakdown-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+.details-breakdown-table th {
+  background: rgba(0, 0, 0, 0.5) !important;
+  color: #ffd700;
+  text-align: left;
+  padding: 6px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.details-breakdown-table td {
+  padding: 6px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 0.15s ease;
+}
+
+.details-breakdown-table tr:hover td {
+  background: rgba(255, 215, 0, 0.08);
+}
+
+.details-breakdown-table tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* Sidebar HUD Button Pulse */
+.details-hud-icon {
+  color: #ffd700 !important;
+  text-shadow: 0 0 5px rgba(255, 215, 0, 0.6);
+  transition: transform 0.2s ease;
+}
+
+.details-hud-icon:hover {
+  transform: scale(1.2);
+}
