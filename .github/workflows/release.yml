@@ -1,0 +1,38 @@
+name: Automated Module Release
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Create Details-5e Zip Archive
+        run: |
+          mkdir -p staging/details-5e
+          rsync -av --exclude='staging' --exclude='.git' --exclude='.github' --exclude='*.zip' ./ staging/details-5e/
+          cd staging
+          zip -r ../details-5e.zip details-5e
+          cd ..
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: Latest Release
+          draft: false
+          prerelease: false
+          files: |
+            details-5e.zip
+            module.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
