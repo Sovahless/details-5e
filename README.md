@@ -33,7 +33,7 @@ A **WoW Details!**-inspired real-time damage meter, healing tracker, and combat 
 
 Manifest URL for Foundry VTT:
 ```
-https://github.com/Sovahless/details-5e/releases/latest/download/module.json
+https://raw.githubusercontent.com/Sovahless/details-5e/main/module.json
 ```
 
 1. Open your **Foundry VTT** setup screen or in-game module browser.
