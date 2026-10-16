@@ -1,15 +1,31 @@
 /**
  * Details! Damage Meter for Foundry VTT (D&D 5e)
- * Main Entry Point
+ * Main Entry Point (Foundry v12-v14 & D&D 5e v3-v6+)
  */
 import { DetailsTracker } from "./tracker.mjs";
 import { DetailsWindow } from "./details-window.mjs";
 import { DetailsActorBreakdown } from "./actor-breakdown.mjs";
 
 let detailsApp = null;
+let _lastToggleTime = 0;
+
+function toggleDetailsWindow() {
+  const now = Date.now();
+  if (now - _lastToggleTime < 150) return;
+  _lastToggleTime = now;
+
+  if (!detailsApp) {
+    detailsApp = new DetailsWindow();
+  }
+  if (detailsApp.rendered) {
+    detailsApp.close();
+  } else {
+    detailsApp.render({ force: true });
+  }
+}
 
 Hooks.once("init", () => {
-  console.log("Details! 5e | Initializing Details! Damage Meter Module...");
+  console.log("Details! 5e | Initializing Details! Damage Meter Module v2.0.0...");
 
   // Register Settings
   game.settings.register("details-5e", "autoOpenOnCombat", {
@@ -50,14 +66,30 @@ Hooks.once("init", () => {
   });
 
   // Handlebars Helpers
-  Handlebars.registerHelper("eq", function (a, b) {
-    return a === b;
-  });
+  if (!Handlebars.helpers?.eq) {
+    Handlebars.registerHelper("eq", function (a, b) {
+      return a === b;
+    });
+  }
+});
+
+Hooks.once("setup", () => {
+  if (game.keybindings?.register) {
+    game.keybindings.register("details-5e", "toggleMeter", {
+      name: "Toggle Details! Damage Meter",
+      hint: "Opens or closes the Details! real-time damage and healing meter window.",
+      editable: [{ key: "KeyD", modifiers: ["Alt"] }],
+      onDown: () => {
+        toggleDetailsWindow();
+        return true;
+      }
+    });
+  }
 });
 
 Hooks.once("ready", () => {
   console.log("Details! 5e | Module Ready.");
-  
+
   // Initialize Tracker Engine Hooks
   const tracker = DetailsTracker.get();
   tracker.initHooks();
@@ -66,50 +98,46 @@ Hooks.once("ready", () => {
   detailsApp = new DetailsWindow();
 
   // Expose API
-  game.modules.get("details-5e").api = {
-    tracker,
-    window: detailsApp,
-    openMeter: () => detailsApp.render(true),
-    closeMeter: () => detailsApp.close(),
-    toggleMeter: () => {
-      if (detailsApp.rendered) detailsApp.close();
-      else detailsApp.render(true);
-    },
-    openBreakdown: (actorId, segmentId) => new DetailsActorBreakdown(actorId, segmentId).render(true)
-  };
+  const mod = game.modules.get("details-5e");
+  if (mod) {
+    mod.api = {
+      tracker,
+      window: detailsApp,
+      openMeter: () => detailsApp.render({ force: true }),
+      closeMeter: () => detailsApp.close(),
+      toggleMeter: () => toggleDetailsWindow(),
+      openBreakdown: (actorId, segmentId) => DetailsActorBreakdown.openFor(actorId, segmentId)
+    };
+  }
 });
 
 // Auto-open on combat start if enabled
 Hooks.on("combatStart", () => {
   if (game.settings.get("details-5e", "autoOpenOnCombat")) {
     if (detailsApp && !detailsApp.rendered) {
-      detailsApp.render(true);
+      detailsApp.render({ force: true });
     }
   }
 });
 
-// Add HUD button in left control palette under Token controls
+// Add HUD button in left control palette under Token controls (v12, v13, v14 compatible)
 Hooks.on("getSceneControlButtons", (controls) => {
   let tokenControls = null;
   if (Array.isArray(controls)) {
     tokenControls = controls.find(c => c?.name === "token" || c?.name === "tokens");
   } else if (controls && typeof controls === "object") {
-    tokenControls = controls.token || controls.tokens || Object.values(controls).find(c => c?.name === "token" || c?.name === "tokens");
+    tokenControls = controls.tokens || controls.token || Object.values(controls).find(c => c?.name === "token" || c?.name === "tokens");
   }
 
   if (tokenControls) {
     const tool = {
       name: "details-meter",
       title: "Toggle Details! Damage Meter",
-      icon: "fas fa-chart-bar details-hud-icon",
+      icon: "fa-solid fa-chart-bar details-hud-icon",
       visible: true,
-      onClick: () => {
-        if (detailsApp) {
-          if (detailsApp.rendered) detailsApp.close();
-          else detailsApp.render(true);
-        }
-      },
-      button: true
+      button: true,
+      onChange: () => toggleDetailsWindow(),
+      onClick: () => toggleDetailsWindow()
     };
 
     if (Array.isArray(tokenControls.tools)) {

@@ -32,20 +32,17 @@
   }
 }
 
-/* Override Foundry VTT default parchment paper window styling */
+/* Override Foundry VTT default window styling (ApplicationV2 & v1) */
+.application.details-window,
 .app.window-app.details-window,
 #details-meter-window,
-#details-actor-breakdown,
-.details-window,
-.details-window .window-content,
-#details-meter-window .window-content,
-#details-actor-breakdown .window-content {
-  background: rgba(0, 0, 0, 0.35) !important;
+#details-actor-breakdown {
+  background: rgba(10, 12, 18, 0.78) !important;
   background-image: none !important;
   border: 1px solid rgba(255, 255, 255, 0.15) !important;
   border-radius: 6px !important;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
-  backdrop-filter: blur(8px) !important;
+  backdrop-filter: blur(10px) !important;
   color: #ffffff !important;
   font-family: "Signika", "Roboto", "Segoe UI", sans-serif;
   overflow: hidden;
@@ -53,12 +50,36 @@
   animation: detailsWindowFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) ease-out;
 }
 
+.details-window .window-content,
+#details-meter-window .window-content,
+#details-actor-breakdown .window-content {
+  background: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #ffffff !important;
+  padding: 0 !important;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.details-window-content,
+.details-breakdown-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
 /* Window Header */
 .details-window .window-header {
-  background: rgba(0, 0, 0, 0.5) !important;
+  background: rgba(0, 0, 0, 0.55) !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
   padding: 4px 8px !important;
-  height: 32px !important;
+  min-height: 32px !important;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -76,21 +97,28 @@
   gap: 6px;
 }
 
-.details-window .window-title i {
+.details-window .window-title i,
+.details-window .window-icon {
+  color: #ffd700 !important;
   transition: transform 0.3s ease;
 }
 
-.details-window:hover .window-title i {
+.details-window:hover .window-title i,
+.details-window:hover .window-icon {
   transform: rotate(15deg) scale(1.1);
 }
 
-.details-window .header-button {
+.details-window .header-button,
+.details-window .header-control {
   color: #cccccc !important;
+  background: transparent !important;
+  border: none !important;
   text-shadow: none;
   transition: color 0.15s ease, transform 0.15s ease;
 }
 
-.details-window .header-button:hover {
+.details-window .header-button:hover,
+.details-window .header-control:hover {
   color: #ffffff !important;
   transform: scale(1.1);
 }
@@ -103,18 +131,22 @@
   padding: 6px 8px;
   background: rgba(0, 0, 0, 0.35) !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  flex-shrink: 0;
 }
 
 .details-controls-bar select {
-  background: rgba(0, 0, 0, 0.5) !important;
+  background: rgba(0, 0, 0, 0.55) !important;
   color: #ffffff !important;
   border: 1px solid rgba(255, 255, 255, 0.25) !important;
   border-radius: 3px !important;
-  padding: 3px 8px !important;
+  padding: 3px 6px !important;
+  height: 26px !important;
   font-size: 11px !important;
   font-weight: 600;
   cursor: pointer;
   outline: none;
+  flex: 1;
+  min-width: 0;
   transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -129,11 +161,14 @@
 }
 
 .details-controls-bar .details-btn {
-  background: rgba(0, 0, 0, 0.5) !important;
+  background: rgba(0, 0, 0, 0.55) !important;
   border: 1px solid rgba(255, 255, 255, 0.25) !important;
   color: #ffffff !important;
   border-radius: 3px !important;
-  padding: 3px 10px !important;
+  padding: 3px 8px !important;
+  height: 26px !important;
+  width: 28px !important;
+  flex-shrink: 0;
   font-size: 11px !important;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -160,7 +195,7 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  max-height: calc(100% - 68px);
+  flex: 1;
   overflow-y: auto;
   background: transparent !important;
 }

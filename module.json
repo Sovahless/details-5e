@@ -2,18 +2,20 @@
   "id": "details-5e",
   "title": "Details! Damage Meter (D&D 5e)",
   "description": "A WoW Details!-inspired real-time damage, healing, and combat analytics meter for D&D 5e in Foundry VTT.",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "compatibility": {
     "minimum": "12",
-    "verified": "13"
+    "verified": "14"
   },
+  "socket": true,
   "relationships": {
     "systems": [
       {
         "id": "dnd5e",
         "type": "system",
         "compatibility": {
-          "minimum": "3.0.0"
+          "minimum": "3.0.0",
+          "verified": "6.0.5"
         }
       }
     ]
